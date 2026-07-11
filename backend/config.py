@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent
 #
 # On a production hosting platform, environment variables are normally
 # configured in the provider dashboard instead of a physical .env file.
-load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / ".env", override=False)
 
 # def get_database_url() -> str | None:
 #     """Return a SQLAlchemy-compatible database connection URL.

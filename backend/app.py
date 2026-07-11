@@ -34,7 +34,7 @@ def create_app():
     app=Flask(__name__,static_folder=None)
     config_class = get_config()
     app.config.from_object(config_class)
-    logger.info("Starting application environment={} debug={}",config_class.ENV,app.config["DEBUG"],)
+    logger.info("Starting application environment={} debug={}",os.getenv("FLASK_ENV", "development"),app.config["DEBUG"],)
     for folder in ("logs","uploads","static","templates"): (BASE_DIR/folder).mkdir(exist_ok=True)
     # db.init_app(app); jwt.init_app(app); CORS(app); Swagger(app,template={"info":{"title":"Record Management API","version":"1.0.0"}})
     db.init_app(app)
