@@ -1,0 +1,17 @@
+<!doctype html><html><head><title>Admin Dashboard</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script></head><body>
+<div id="loader" class="spinner-overlay"><div class="spinner-border"></div></div>
+<nav class="navbar navbar-dark bg-dark px-3"><a class="navbar-brand" href="/admin.html">Record System</a>
+<div><a class="btn btn-outline-light btn-sm me-2" href="/profile.html">Profile</a><button onclick="logout()" class="btn btn-danger btn-sm">Logout</button></div></nav>
+<main class="container py-4"><h2 class="mb-4">Admin Dashboard</h2>
+<div class="row g-3 mb-4" id="stats"></div><div class="mb-3"><input id="search" class="form-control d-inline-block" style="max-width:300px" placeholder="Search"><button onclick="load()" class="btn btn-primary">Search</button>
+<a href="/audit-logs.html" class="btn btn-secondary">Audit Logs</a><a href="/login-history.html" class="btn btn-secondary">Login History</a><a href="/settings.html" class="btn btn-secondary">Users</a></div>
+<div class="table-responsive"><table class="table"><thead><tr><th>ID</th><th>Record</th><th>Name</th><th>Status</th><th>Locked</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table></div>
+</main><script src="/js/api.js"></script><script>guard('ADMIN');
+async function loadStats(){const r=await API.get('/admin/stats');stats.innerHTML=Object.entries(r.data.data).map(([k,v])=>`<div class="col-md-3"><div class="card card-stat"><div class="card-body"><h6>${k.toUpperCase()}</h6><h2>${v}</h2></div></div></div>`).join('')}
+async function action(a,id){if(!await Swal.fire({title:`${a} record?`,showCancelButton:true,confirmButtonText:'Yes'}).then(x=>x.isConfirmed))return;await API.post('/records/'+a,{id});toast('Action completed');load();loadStats()}
+async function del(id){if(!await Swal.fire({title:'Delete record?',showCancelButton:true,confirmButtonText:'Delete'}).then(x=>x.isConfirmed))return;await API.delete('/records/'+id);load();loadStats()}
+async function load(){const r=await API.get('/records',{params:{search:search.value,per_page:100}});rows.innerHTML=r.data.data.items.map(x=>`<tr><td>${x.id}</td><td>${x.record_id}</td><td>${x.name}</td><td>${x.status}</td><td>${x.is_locked}</td><td class="d-flex gap-1 flex-wrap"><a class="btn btn-sm btn-info" href="/view-record.html?id=${x.id}">View</a><a class="btn btn-sm btn-warning" href="/edit-record.html?id=${x.id}">Edit</a><button class="btn btn-sm btn-secondary" onclick="action('${x.is_locked?'unlock':'lock'}',${x.id})">${x.is_locked?'Unlock':'Lock'}</button><button class="btn btn-sm btn-success" onclick="action('approve',${x.id})">Approve</button><button class="btn btn-sm btn-dark" onclick="action('reject',${x.id})">Reject</button><button class="btn btn-sm btn-danger" onclick="del(${x.id})">Delete</button></td></tr>`).join('')}load();loadStats();
+</script></body></html>
