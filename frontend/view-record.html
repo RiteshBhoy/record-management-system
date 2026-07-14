@@ -1,8 +1,33 @@
-<!doctype html><html><head><title>View Record</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script></head><body><div id="loader" class="spinner-overlay"><div class="spinner-border"></div></div>
-<nav class="navbar navbar-dark bg-dark px-3"><a class="navbar-brand" href="#" onclick="history.back()">Back</a><button onclick="logout()" class="btn btn-danger btn-sm">Logout</button></nav>
-<div class="container py-4"><h2>Record Details</h2><div id="data" class="card"><div class="card-body"></div></div></div><script src="/js/api.js"></script><script>
-(async()=>{const id=new URLSearchParams(location.search).get('id');try{const r=await API.get('/records/'+id);data.firstElementChild.innerHTML=Object.entries(r.data.data).map(([k,v])=>`<div class="row border-bottom py-2"><b class="col-md-4">${k.replaceAll('_',' ').toUpperCase()}</b><span class="col-md-8">${v??''}</span></div>`).join('')}catch(_){}})();
-</script></body></html>
+<!doctype html>
+<html>
+
+<head>
+    <title>View Record</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div id="loader" class="spinner-overlay">
+        <div class="spinner-border"></div>
+    </div>
+    <nav class="navbar navbar-dark bg-dark px-3"><a class="navbar-brand" href="#"
+            onclick="history.back()">Back</a><button onclick="logout()" class="btn btn-danger btn-sm">Logout</button>
+    </nav>
+    <div class="container py-4">
+        <h2>Record Details</h2>
+        <div id="data" class="card">
+            <div class="card-body"></div>
+        </div>
+    </div>
+    <script src="/js/api.js"></script>
+    <script>
+        (async () => { const id = new URLSearchParams(location.search).get('id'); try { const r = await API.get('/records/' + id); data.firstElementChild.innerHTML = Object.entries(r.data.data).map(([k, v]) => `<div class="row border-bottom py-2"><b class="col-md-4">${k.replaceAll('_', ' ').toUpperCase()}</b><span class="col-md-8">${v ?? ''}</span></div>`).join('') } catch (_) { } })();
+    </script>
+</body>
+
+</html>

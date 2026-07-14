@@ -1,14 +1,57 @@
-<!doctype html><html><head><title>User Management</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/style.css"><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script></head><body>
-<div id="loader" class="spinner-overlay"><div class="spinner-border"></div></div>
-<nav class="navbar navbar-dark bg-dark px-3"><a class="navbar-brand" href="/admin.html">Record System</a>
-<div><a class="btn btn-outline-light btn-sm me-2" href="/profile.html">Profile</a><button onclick="logout()" class="btn btn-danger btn-sm">Logout</button></div></nav>
-<main class="container py-4"><h2 class="mb-4">User Management</h2>
-<form id="uf" class="row g-2 mb-4"><div class="col"><input name="full_name" class="form-control" placeholder="Full name" required></div><div class="col"><input name="email" type="email" class="form-control" placeholder="Email" required></div><div class="col"><input name="password" type="password" class="form-control" value="Admin@123" required></div><div class="col"><select name="role" class="form-select"><option>CLIENT</option><option>ADMIN</option></select></div><div class="col"><button class="btn btn-primary">Add User</button></div></form>
-<div class="table-responsive"><table class="table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
-</main><script src="/js/api.js"></script><script>guard('ADMIN');
-async function load(){const r=await API.get('/users');rows.innerHTML=r.data.data.map(x=>`<tr><td>${x.full_name}</td><td>${x.email}</td><td>${x.role}</td><td>${x.status}</td><td><button class="btn btn-sm btn-danger" onclick="deactivate(${x.id})">Deactivate</button></td></tr>`).join('')}
-async function deactivate(id){await API.delete('/users/'+id);load()}uf.addEventListener('submit',async e=>{e.preventDefault();await API.post('/users',Object.fromEntries(new FormData(uf).entries()));toast('User created');uf.reset();load()});load();
-</script></body></html>
+<!doctype html>
+<html>
+
+<head>
+    <title>User Management</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div id="loader" class="spinner-overlay">
+        <div class="spinner-border"></div>
+    </div>
+    <nav class="navbar navbar-dark bg-dark px-3"><a class="navbar-brand" href="/admin.html">Record System</a>
+        <div><a class="btn btn-outline-light btn-sm me-2" href="/profile.html">Profile</a><button onclick="logout()"
+                class="btn btn-danger btn-sm">Logout</button></div>
+    </nav>
+    <main class="container py-4">
+        <h2 class="mb-4">User Management</h2>
+        <form id="uf" class="row g-2 mb-4">
+            <div class="col"><input name="full_name" class="form-control" placeholder="Full name" required></div>
+            <div class="col"><input name="email" type="email" class="form-control" placeholder="Email" required></div>
+            <div class="col"><input name="password" type="password" class="form-control" value="Admin@123" required>
+            </div>
+            <div class="col"><select name="role" class="form-select">
+                    <option>CLIENT</option>
+                    <option>ADMIN</option>
+                </select></div>
+            <div class="col"><button class="btn btn-primary">Add User</button></div>
+        </form>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+            </table>
+        </div>
+    </main>
+    <script src="/js/api.js"></script>
+    <script>guard('ADMIN');
+        async function load() { const r = await API.get('/users'); rows.innerHTML = r.data.data.map(x => `<tr><td>${x.full_name}</td><td>${x.email}</td><td>${x.role}</td><td>${x.status}</td><td><button class="btn btn-sm btn-danger" onclick="deactivate(${x.id})">Deactivate</button></td></tr>`).join('') }
+        async function deactivate(id) { await API.delete('/users/' + id); load() } uf.addEventListener('submit', async e => { e.preventDefault(); await API.post('/users', Object.fromEntries(new FormData(uf).entries())); toast('User created'); uf.reset(); load() }); load();
+    </script>
+</body>
+
+</html>
