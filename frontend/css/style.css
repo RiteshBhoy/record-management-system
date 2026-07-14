@@ -38,3 +38,128 @@ body {
     content: " *";
     color: red
 }
+
+
+
+
+
+
+/* =============================
+/* =====================================================
+   ADMIN PAGE ONLY
+   ===================================================== */
+
+.admin-page {
+    background: #eef3f9;
+}
+
+.admin-navbar {
+    background: linear-gradient(90deg, #0d6efd, #4f46e5);
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-card {
+    border: none;
+    border-radius: 16px;
+}
+
+.admin-table {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.admin-table table {
+    margin: 0;
+}
+
+.admin-table thead {
+    background: #0d6efd;
+    color: #fff;
+}
+
+.admin-table thead th {
+    border: none;
+    padding: 16px;
+    font-weight: 600;
+}
+
+.admin-table tbody td {
+    padding: 16px;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr {
+    transition: .25s;
+}
+
+.admin-table tbody tr:hover {
+    background: #f7fbff;
+}
+
+.card-stat {
+    border: none;
+    border-radius: 18px;
+    background: #fff;
+    transition: .3s;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+
+.card-stat:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(13, 110, 253, .2);
+}
+
+.card-stat h6 {
+    color: #6c757d;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.card-stat h2 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+.admin-table .btn {
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 6px 12px;
+}
+
+.badge {
+    font-size: 13px;
+    padding: 7px 10px;
+    border-radius: 20px;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+@media (max-width:768px) {
+
+    .admin-header {
+        display: block;
+    }
+
+    .admin-header h2 {
+        margin-bottom: 8px;
+    }
+
+    .admin-table td,
+    .admin-table th {
+        white-space: nowrap;
+    }
+
+}
