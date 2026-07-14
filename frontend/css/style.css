@@ -127,10 +127,26 @@ body {
     color: #0d6efd;
 }
 
-.admin-table .btn {
+/* .admin-table .btn {
     border-radius: 8px;
     font-size: 13px;
     padding: 6px 12px;
+} */
+
+.admin-page .admin-table .btn {
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    min-width: 85px;
+    transition: all .25s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .12);
+}
+
+.admin-page .admin-table .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .18);
 }
 
 .badge {
@@ -162,4 +178,76 @@ body {
         white-space: nowrap;
     }
 
+}
+
+
+/* ===== Admin Action Buttons ===== */
+
+.admin-page .btn-info {
+    background: #06b6d4;
+    color: #fff;
+}
+
+.admin-page .btn-info:hover {
+    background: #0891b2;
+    color: #fff;
+}
+
+.admin-page .btn-warning {
+    background: #f59e0b;
+    color: #fff;
+}
+
+.admin-page .btn-warning:hover {
+    background: #d97706;
+    color: #fff;
+}
+
+.admin-page .btn-secondary {
+    background: #6b7280;
+    color: #fff;
+}
+
+.admin-page .btn-secondary:hover {
+    background: #4b5563;
+}
+
+.admin-page .btn-success {
+    background: #16a34a;
+    color: #fff;
+}
+
+.admin-page .btn-success:hover {
+    background: #15803d;
+}
+
+.admin-page .btn-dark {
+    background: #374151;
+    color: #fff;
+}
+
+.admin-page .btn-dark:hover {
+    background: #111827;
+}
+
+.admin-page .btn-danger {
+    background: #ef4444;
+    color: #fff;
+}
+
+.admin-page .btn-danger:hover {
+    background: #dc2626;
+}
+
+.admin-page .admin-table tbody td:last-child {
+    min-width: 360px;
+}
+
+.admin-page .admin-table tbody td:last-child .d-flex {
+    gap: 10px !important;
+}
+
+.admin-page .admin-table tbody td {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
