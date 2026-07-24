@@ -19,15 +19,83 @@
             onclick="history.back()">Back</a><button onclick="logout()" class="btn btn-danger btn-sm">Logout</button>
     </nav>
     <div class="container py-4">
-        <h2>Record Details</h2>
-        <div id="data" class="card">
-            <div class="card-body"></div>
-        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Record Details</h2>
+
+    <button id="downloadPdfBtn" class="btn btn-danger">
+        📄 Download PDF
+    </button>
+</div>
+
+<div id="data" class="card">
+    <div class="card-body"></div>
+</div>
     </div>
     <script src="/js/api.js"></script>
-    <script>
-        (async () => { const id = new URLSearchParams(location.search).get('id'); try { const r = await API.get('/records/' + id); data.firstElementChild.innerHTML = Object.entries(r.data.data).map(([k, v]) => `<div class="row border-bottom py-2"><b class="col-md-4">${k.replaceAll('_', ' ').toUpperCase()}</b><span class="col-md-8">${v ?? ''}</span></div>`).join('') } catch (_) { } })();
-    </script>
+<script>
+const id = new URLSearchParams(location.search).get('id');
+
+(async () => {
+    try {
+        const r = await API.get('/records/' + id);
+
+        data.firstElementChild.innerHTML =
+            Object.entries(r.data.data)
+                .map(([k, v]) => `
+                    <div class="row border-bottom py-2">
+                        <b class="col-md-4">${k.replaceAll('_', ' ').toUpperCase()}</b>
+                        <span class="col-md-8">${v ?? ''}</span>
+                    </div>
+                `)
+                .join('');
+    } catch (e) {
+        console.error(e);
+    }
+})();
+
+document.getElementById("downloadPdfBtn").addEventListener("click", async () => {
+
+    console.log("Download button clicked");
+
+    try {
+
+        const response = await API.get(`/records/${id}/pdf`, {
+            responseType: "blob"
+        });
+
+        const blob = new Blob([response.data], {
+            type: "application/pdf"
+        });
+
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+
+        a.href = url;
+        a.download = `record_${id}.pdf`;
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+        window.URL.revokeObjectURL(url);
+
+    } catch (err) {
+
+        console.error(err);
+
+        Swal.fire(
+            "Error",
+            "Unable to download PDF",
+            "error"
+        );
+
+    }
+
+});
+</script>
 </body>
 
 </html>

@@ -1,3 +1,5 @@
+from flask import make_response
+from services.pdf_service import PDFService
 from datetime import datetime, timezone
 from flask import Blueprint, request
 from pydantic import ValidationError as PydanticValidationError
@@ -71,6 +73,29 @@ def get_record(record_pk):
     u=current_user(); r=find_record(record_pk)
     if u.role=="CLIENT" and r.client_id!=u.id: raise AuthorizationError("Access denied")
     return success("Record fetched", record_dict(r))
+
+@records_bp.get("/<int:record_pk>/pdf")
+def download_pdf(record_pk):
+    """Generate and download PDF for a record."""
+
+    u = current_user()
+
+    r = find_record(record_pk)
+
+    if u.role == "CLIENT" and r.client_id != u.id:
+        raise AuthorizationError("Access denied")
+
+    pdf = PDFService.generate_pdf(r)
+
+    response = make_response(pdf)
+
+    response.headers["Content-Type"] = "application/pdf"
+
+    response.headers["Content-Disposition"] = (
+        f'attachment; filename="{r.record_id}.pdf"'
+    )
+
+    return response
 
 @records_bp.put("/<int:record_pk>")
 def update_record(record_pk):

@@ -1,0 +1,118 @@
+{% extends "pdf/base.html" %}
+
+{% block content %}
+
+<div class="record-header">
+
+    <div>
+        <strong>Record ID :</strong>
+        {{ data.record_id }}
+    </div>
+
+    <div class="status {{ data.status|lower }}">
+        {{ data.status }}
+    </div>
+
+</div>
+
+<div class="card">
+
+<h2>Personal Information</h2>
+
+<table>
+
+<tr><td>Name</td><td>{{ data.personal.name }}</td></tr>
+<tr><td>Age</td><td>{{ data.personal.age }}</td></tr>
+<tr><td>Gender</td><td>{{ data.personal.gender }}</td></tr>
+<tr><td>Blood Group</td><td>{{ data.personal.blood_group }}</td></tr>
+<tr><td>Nationality</td><td>{{ data.personal.nationality }}</td></tr>
+<tr><td>Marital Status</td><td>{{ data.personal.marital_status }}</td></tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>Contact Information</h2>
+
+<table>
+
+<tr><td>Email</td><td>{{ data.contact.email }}</td></tr>
+<tr><td>Phone</td><td>{{ data.contact.phone }}</td></tr>
+<tr><td>Address</td><td>{{ data.contact.address }}</td></tr>
+<tr><td>City</td><td>{{ data.contact.city }}</td></tr>
+<tr><td>State</td><td>{{ data.contact.state }}</td></tr>
+<tr><td>Country</td><td>{{ data.contact.country }}</td></tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>Professional Details</h2>
+
+<table>
+
+<tr><td>Occupation</td><td>{{ data.professional.occupation }}</td></tr>
+<tr><td>Fees</td><td>₹ {{ "%.2f"|format(data.professional.fees) }}</td></tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>Identity Details</h2>
+
+<table>
+
+<tr><td>Aadhaar</td><td>{{ data.identity.aadhaar }}</td></tr>
+
+<tr><td>PAN</td><td>{{ data.identity.pan }}</td></tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>Workflow</h2>
+
+<table>
+
+<tr><td>Status</td><td>{{ data.workflow.status }}</td></tr>
+
+<tr><td>Validation</td><td>{{ data.workflow.validation_status }}</td></tr>
+
+<tr><td>Created By</td><td>{{ data.workflow.created_by }}</td></tr>
+
+<tr><td>Created At</td><td>{{ data.workflow.created_at }}</td></tr>
+
+<tr><td>Updated By</td><td>{{ data.workflow.updated_by }}</td></tr>
+
+<tr><td>Updated At</td><td>{{ data.workflow.updated_at }}</td></tr>
+
+<tr><td>Approved By</td><td>{{ data.workflow.approved_by }}</td></tr>
+
+<tr><td>Approved At</td><td>{{ data.workflow.approved_at }}</td></tr>
+
+</table>
+
+</div>
+
+
+<div class="card">
+
+<h2>Remarks</h2>
+
+<p>{{ data.remarks }}</p>
+
+</div>
+
+{% endblock %}

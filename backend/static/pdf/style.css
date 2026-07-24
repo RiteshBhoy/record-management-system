@@ -1,0 +1,158 @@
+@page {
+    size: A4;
+    margin: 22mm;
+
+    @bottom-right {
+        content: "Page " counter(page) " of " counter(pages);
+        font-size: 10px;
+        color: #666;
+    }
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    color:#333;
+    font-size:13px;
+}
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:3px solid #1E88E5;
+
+    padding-bottom:15px;
+
+    margin-bottom:25px;
+}
+
+.logo{
+
+    width:75px;
+}
+
+.title-section{
+
+    text-align:right;
+}
+
+.title-section h1{
+
+    margin:0;
+
+    color:#1565C0;
+
+    font-size:24px;
+}
+
+.title-section p{
+
+    margin-top:5px;
+
+    color:#666;
+}
+
+.record-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+    font-size:14px;
+}
+
+.status{
+
+    color:white;
+
+    padding:6px 15px;
+
+    border-radius:20px;
+
+    font-weight:bold;
+}
+
+.status.approved{
+
+    background:#2E7D32;
+}
+
+.status.pending{
+
+    background:#F9A825;
+}
+
+.status.rejected{
+
+    background:#C62828;
+}
+
+.card{
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    margin-bottom:20px;
+
+    overflow:hidden;
+}
+
+.card h2{
+
+    margin:0;
+
+    background:#1565C0;
+
+    color:white;
+
+    padding:10px;
+
+    font-size:15px;
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+td{
+
+    padding:10px;
+
+    border-bottom:1px solid #eee;
+}
+
+td:first-child{
+
+    width:35%;
+
+    font-weight:bold;
+
+    background:#F7F9FC;
+}
+
+.footer{
+
+    margin-top:30px;
+
+    border-top:1px solid #ddd;
+
+    padding-top:10px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:10px;
+
+    color:#666;
+}
