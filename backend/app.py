@@ -10,7 +10,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.exceptions import HTTPException
 from pydantic import ValidationError as PydanticValidationError
 from config import BASE_DIR, get_config
-from extensions import db, jwt, migrate, mail
+from extensions import db, jwt, migrate
 from models import User
 from auth.security import hash_password
 from routes import (admin_bp,auth_bp,health_bp,records_bp,users_bp,)
@@ -47,7 +47,7 @@ def create_app():
         render_as_batch=True,
     )
     
-    mail.init_app(app)
+    # mail.init_app(app)
     
     CORS(app,origins=app.config["CORS_ORIGINS"],)
     Swagger(

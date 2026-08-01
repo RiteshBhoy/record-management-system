@@ -1,62 +1,99 @@
-from flask_mail import Message
-from extensions import mail
+import os
+import base64
+import resend
+
 from services.pdf_service import PDFService
 
 
 class EmailService:
+    """Service for sending record notifications using Resend."""
+
+    @staticmethod
+    def _configure():
+        api_key = os.getenv("RESEND_API_KEY")
+
+        if not api_key:
+            raise RuntimeError("RESEND_API_KEY is not configured")
+
+        resend.api_key = api_key
+
 
     @staticmethod
     def send_approval_email(record):
+        EmailService._configure()
 
-        msg = Message(
-            subject=f"Record {record.record_id} Approved",
-            recipients=[record.email]
-        )
-
-        msg.body = f"""
-Hello {record.name},
-
-Congratulations!
-
-Your record has been approved successfully.
-
-Record ID : {record.record_id}
-
-Please find your approved record attached.
-
-Regards,
-Record Management System
-"""
-
-        # Generate PDF
+        # Generate approved record PDF
         pdf_bytes = PDFService.generate_pdf(record)
 
-        # Attach PDF
-        msg.attach(
-            filename=f"{record.record_id}.pdf",
-            content_type="application/pdf",
-            data=pdf_bytes,
-        )
+        # Convert PDF bytes to Base64
+        pdf_base64 = base64.b64encode(pdf_bytes).decode("utf-8")
 
-        mail.send(msg)
+        params = {
+            "from": "Record Management System <onboarding@resend.dev>",
+            "to": [record.email],
+            "subject": f"Record {record.record_id} Approved",
+
+            "html": f"""
+                <h2>Record Approved</h2>
+
+                <p>Hello {record.name},</p>
+
+                <p>Your record has been approved successfully.</p>
+
+                <p>
+                    <strong>Record ID:</strong> {record.record_id}<br>
+                    <strong>Status:</strong> APPROVED
+                </p>
+
+                <p>
+                    Please find your approved record attached to this email.
+                </p>
+
+                <p>
+                    Regards,<br>
+                    Record Management System
+                </p>
+            """,
+
+            "attachments": [
+                {
+                    "filename": f"{record.record_id}.pdf",
+                    "content": pdf_base64
+                }
+            ]
+        }
+
+        return resend.Emails.send(params)
+
 
     @staticmethod
     def send_rejection_email(record):
+        EmailService._configure()
 
-        msg = Message(
-            subject=f"Record {record.record_id} Rejected",
-            recipients=[record.email]
-        )
+        params = {
+            "from": "Record Management System <onboarding@resend.dev>",
+            "to": [record.email],
+            "subject": f"Record {record.record_id} Rejected",
 
-        msg.body = f"""
-Hello {record.name},
+            "html": f"""
+                <h2>Record Rejected</h2>
 
-Unfortunately your record has been rejected.
+                <p>Hello {record.name},</p>
 
-Record ID : {record.record_id}
+                <p>
+                    Unfortunately, your record has been rejected.
+                </p>
 
-Regards,
-Record Management System
-"""
+                <p>
+                    <strong>Record ID:</strong> {record.record_id}<br>
+                    <strong>Status:</strong> REJECTED
+                </p>
 
-        mail.send(msg)
+                <p>
+                    Regards,<br>
+                    Record Management System
+                </p>
+            """
+        }
+
+        return resend.Emails.send(params)
