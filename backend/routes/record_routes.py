@@ -1,4 +1,5 @@
 from flask import make_response
+from services.email_service import EmailService
 from services.pdf_service import PDFService
 from datetime import datetime, timezone
 from flask import Blueprint, request
@@ -130,6 +131,10 @@ def workflow(action):
     elif action=="APPROVE": r.status="APPROVED"; r.approved_by=u.id; r.approved_at=datetime.now(timezone.utc)
     elif action=="REJECT": r.status="REJECTED"; r.approved_by=None; r.approved_at=None
     audit(u.id,action,"main_table",r.record_id,old,record_dict(r)); db.session.commit()
+    if action == "APPROVE":
+        EmailService.send_approval_email(r)
+    elif action == "REJECT":
+        EmailService.send_rejection_email(r)
     return success(f"Record {action.lower()} successful",record_dict(r))
 
 @records_bp.post("/lock")

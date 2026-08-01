@@ -1,6 +1,7 @@
 """Application health-check routes."""
 
 from datetime import datetime, timezone
+from services.email_service import EmailService
 
 from flask import Blueprint, jsonify
 
@@ -28,3 +29,4 @@ def health_check():
         ),
         200,
     )
+    
